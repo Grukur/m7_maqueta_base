@@ -23,7 +23,22 @@ class Estudiantes {
         });
     };
 
-    createUser() {
+    static findBy(id) {
+        return new Promise(async (resolve, reject) => {
+            try {               
+                let result = await db.query(
+                    "SELECT id, nombres, apellidos, edad, nro_identificacion FROM estudiantes where id = $1",
+                    [id]
+                );
+                resolve(result);
+            } catch (error) {
+                console.log(error)
+                reject(error)
+            }
+        });
+    };
+
+    createEstudiante() {
         return new Promise(async (resolve, reject) => {
             try {
                 let query = {
@@ -39,7 +54,7 @@ class Estudiantes {
         })
     };
 
-	static updateUser(id, nombres, apellidos, edad, nro_identificacion) {
+	static updateEstudiante(id, nombres, apellidos, edad, nro_identificacion) {
 		return new Promise(async (resolve, reject) => {
             try {
                 let query = {
@@ -54,7 +69,7 @@ class Estudiantes {
 		});
 	}
 
-    static deleteUser(id) {
+    static deleteEstudiante(id) {
         return new Promise(async (resolve, reject)=>{
             try {
                 let query = {

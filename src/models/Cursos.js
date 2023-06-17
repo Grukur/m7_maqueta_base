@@ -11,10 +11,10 @@ class Cursos {
         return new Promise(async (resolve, reject) => {
             try {
                 let query = {
-                    text: "SELECT id, nombres, apellidos, edad, nro_identificacion FROM estudiantes",
+                    text: "SELECT id, titulo, descripcion FROM cursos",
                     values: [],
                 }
-                let resultado = await db(query);
+                let resultado = await db.query(query);
                 return resolve(resultado);
             } catch (error) {
                 reject(error)
@@ -22,14 +22,29 @@ class Cursos {
         });
     }
 
-    createUser() {
+    static findBy(id) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                let query = {
+                    text: "SELECT id, titulo, descripcion FROM cursos where id = $1",
+                    values: [id],
+                }
+                let resultado = await db.query(query);
+                return resolve(resultado);
+            } catch (error) {
+                reject(error)
+            }
+        });
+    }
+
+    createCursos() {
         return new Promise(async (resolve, reject) => {
             try {
                 let query = {
                     text: `INSERT INTO cursos(titulo, descripcion) VALUES($1,$2) returning id, titulo, descripcion`,
                     values: [this.titulo, this.descripcion],
                 };
-                let resultado = await db(query);
+                let resultado = await db.query(query);
                 return resolve(resultado);
             } catch (error) {
                 console.log(error)
@@ -38,14 +53,14 @@ class Cursos {
         })
     };
 
-    static updateUser(id, titulo, descripcion) {
+    static updateCursos(id, titulo, descripcion) {
 		return new Promise(async (resolve, reject) => {
 			try {
 				let query = {
 					text: 'UPDATE cursos SET titulo=$2, descripcion=$3 WHERE id = $1',
 					values: [id, titulo, descripcion],
 				};
-				let resultado = await db(query);
+				let resultado = await db.query(query);
 				return resolve(resultado);
 			} catch (error) {
 				reject(error);
@@ -53,14 +68,14 @@ class Cursos {
 		});
 	}
 
-    static deleteUser(id) {
+    static deleteCursos(id) {
         return new Promise(async (resolve, reject)=>{
             try {
                 let query = {
                     text:`DELETE FROM cursos WHERE id=$1`,
                     values:[id],
                 };
-                let resultado = await db(query);
+                let resultado = await db.query(query);
                 return resolve (resultado);
             } catch (error) {
                 reject(error)

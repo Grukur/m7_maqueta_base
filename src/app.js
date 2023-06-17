@@ -8,7 +8,7 @@ app.use(express.json());
 app.use(cors());
 
 //ROUTES
-app.use('/api/estudiantes', router)
+app.use('/api/', router)
 
 
 export default app;
