@@ -1,5 +1,5 @@
 import Cursos from "../models/Cursos.js";
-import Estudiantes from "../models/Estudiantes.js";
+import returnError from '../db/errorPostgres.js';
 
 export const getCursos = async (req, res) => {
     try {
@@ -10,7 +10,10 @@ export const getCursos = async (req, res) => {
             message:'Cursos obtenidos con exito'
         })
     } catch(error) {
-        console.log('Error al cargar cursos: ', error)
+        if(error.code){
+            let messageError = returnError(error);
+            console.log('Error al cargar cursos: ',messageError)
+        }
     }
 }
 
@@ -24,7 +27,10 @@ export const getCursoBy = async (req, res) => {
             message:'Curso por ID obtenido con exito'
         })
     }catch(error){
-        console.log('Error al buscar curso por id: ', error)
+        if(error.code){
+            let messageError = returnError(error);
+            console.log('Error al buscar curso por id: ', messageError)           
+        }
     }
 }
 
@@ -39,7 +45,10 @@ export const createCursos = async (req, res) => {
             message:'Curso creado con exito'
         })
     } catch (error) {
-        console.log('Error al crear un curso: ', error)
+        if(error.code){
+            let messageError = returnError(error);
+            console.log('Error al crear un curso: ', messageError)
+        }
     }
 }
 
@@ -54,7 +63,10 @@ export const updateCursos = async (req, res) => {
             message:'Curso actualizado con exito'
         })
     } catch(error) {
-        console.log('Error al actualizar curso: ', error)
+        if(error.code){
+            let messageError = returnError(error);
+            console.log('Error al actualizar curso: ', messageError)
+        }
     }
 }
 export const deleteCursos = async (req, res) => {
@@ -67,6 +79,9 @@ export const deleteCursos = async (req, res) => {
             message:'Curso Eliminado con exito'
         })
     } catch(error) {
-        console.log('Error al actualizar curso: ', error)
+        if(error.code){
+            let messageError = returnError(error);
+            console.log('Error al eliminar curso: ', messageError)
+        }
     }
 }

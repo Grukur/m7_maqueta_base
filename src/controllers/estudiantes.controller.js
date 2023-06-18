@@ -1,4 +1,5 @@
-import Estudiantes from "../models/Estudiantes.js"
+import Estudiantes from "../models/Estudiantes.js";
+import returnError from "../db/errorPostgres.js";
 
 export const getEstudiantes = async (req, res) => {
     try {
@@ -10,7 +11,10 @@ export const getEstudiantes = async (req, res) => {
         })
 
     } catch (error) {
-        console.log('Error al buscar todos: ', error);
+        if(error.code){
+            let messageError = returnError(error);
+            console.log('Error al buscar todos los estudiantes: ', messageError);
+        }
     }
 }
 
@@ -24,7 +28,10 @@ export const getEstudianteById = async (req, res) => {
             message: 'Encontrado.'
         })
     } catch (error) {
-        console.log('Error en buscar por id: ', error)
+        if(error.code){
+            let messageError = returnError(error);
+            console.log('Error en buscar por id: ', messageError)
+        }
     }
 }
 
@@ -39,7 +46,10 @@ export const createEstudiante = async (req, res) => {
             message:'Estudiante creado con exito'
         })
     } catch (error) {
-        console.log("Error en creacion: ", error)
+        if(error.code){
+            let messageError = returnError(error);
+            console.log("Error en creacion de estudiante: ", messageError)
+        }
     }
 }
 
@@ -54,7 +64,10 @@ export const updateEstudiante = async (req, res) => {
             message:"Actualizado correctamente"
         })
     } catch (error){
-        console.log('Error al actualizar estudiante: ', error)
+        if(error.code){
+            let messageError = returnError(error);
+            console.log('Error al actualizar estudiante: ', messageError)
+        }
     }
 }
 
@@ -68,6 +81,9 @@ export const deleteEstudiante = async (req, res) => {
             message:`Estudiante con id: ${id} eliminado`
         })
     } catch (error){
-        console.log('Error al eliminar estudiante: ', error)
+        if(error.code){
+            let messageError = returnError(error);
+            console.log('Error al eliminar estudiante: ', messageError)
+        }
     }
 }
